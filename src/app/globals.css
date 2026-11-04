@@ -31,7 +31,6 @@
   --color-riho-green: var(--riho-green);
 
   --font-sans: var(--font-sans-family), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif-family), ui-serif, Georgia, serif;
 
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 }

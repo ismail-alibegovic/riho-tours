@@ -123,3 +123,20 @@ export const Instagram = (p: P) => (
     <path d="M17.2 6.8h.01" />
   </svg>
 );
+export const Info = (p: P) => (
+  <svg {...base(p)}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M12 11v5M12 8h.01" />
+  </svg>
+);
+export const Bed = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M3 18V7M3 14h18v4M21 14v-2.5A2.5 2.5 0 0018.5 9H11v5M7 11.5h.01" />
+  </svg>
+);
+export const Users = (p: P) => (
+  <svg {...base(p)}>
+    <circle cx="9" cy="8.5" r="3" />
+    <path d="M3.5 19a5.5 5.5 0 0111 0M16 6a3 3 0 010 5.5M17.5 14a5 5 0 013 5" />
+  </svg>
+);

@@ -11,7 +11,7 @@ export function SiteFooter() {
         <div className="grid gap-10 border-b border-mist/10 pb-10 sm:gap-12 sm:pb-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Logo onPhoto={false} />
-            <p className="mt-5 max-w-sm font-serif text-[1.25rem] italic leading-snug text-mist/90">
+            <p className="mt-5 max-w-sm text-[1.05rem] font-medium leading-snug text-mist/90">
               Krojimo putovanja po Vašoj mjeri.
             </p>
             <div className="mt-6 flex gap-3">

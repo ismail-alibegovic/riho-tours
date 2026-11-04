@@ -163,7 +163,7 @@ export function Hero({ slides, finder }: { slides: Slide[]; finder?: React.React
             >
               <span className="block">Otkrijte</span>
               <span className="mt-1 block whitespace-nowrap">
-                <span className="mr-[0.16em] font-serif text-[0.98em] font-normal normal-case italic tracking-normal">
+                <span className="mr-[0.2em] font-light normal-case italic tracking-[-0.01em]">
                   ljepotu
                 </span>
                 svijeta

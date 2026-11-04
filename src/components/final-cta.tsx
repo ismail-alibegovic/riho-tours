@@ -11,10 +11,10 @@ export function FinalCta() {
       <div className="relative isolate overflow-hidden rounded-[18px] lg:rounded-[22px]">
         <Image src={img.ohridKaneo.src} alt="" fill sizes="100vw" className="-z-10 object-cover" />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(8,17,21,.85)_0%,rgba(8,17,21,.55)_50%,rgba(8,17,21,.2)_100%)]" />
-        <div className="mx-auto flex min-h-[26rem] max-w-[1440px] flex-col justify-center px-6 py-14 sm:px-10 lg:min-h-[32rem] lg:px-[7.5rem]">
+        <div className="mx-auto flex min-h-[26rem] max-w-[1440px] flex-col justify-center px-6 py-14 sm:px-8 lg:min-h-[32rem] lg:px-12">
           <Reveal>
             <h2 className="max-w-2xl text-[clamp(1.9rem,4vw,3.2rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-mist">
-              Niste pronašli <span className="font-serif font-normal italic">pravo</span> putovanje?
+              Niste pronašli pravo putovanje?
             </h2>
             <p className="mt-4 max-w-lg text-[1rem] leading-relaxed text-mist/85">
               Javite nam destinaciju, termin i broj putnika – pripremit ćemo individualnu ponudu.

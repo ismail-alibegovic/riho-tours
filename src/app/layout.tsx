@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, Playfair_Display } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/data/site";
 import "./globals.css";
@@ -7,14 +7,7 @@ import "./globals.css";
 const sans = Montserrat({
   variable: "--font-sans-family",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const serif = Playfair_Display({
-  variable: "--font-serif-family",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -49,7 +42,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="bs" className={`${sans.variable} ${serif.variable} antialiased`}>
+    <html lang="bs" className={`${sans.variable} antialiased`}>
       <body className="min-h-dvh bg-ink text-mist">
         <a
           href="#sadrzaj"

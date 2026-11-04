@@ -5,7 +5,7 @@ export function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="text-sm font-medium text-sand-light">{children}</p>;
 }
 
-/** Section title – plain sentence case; the serif is reserved for the hero and pull quotes. */
+/** Section title – plain sentence case, single typeface (Montserrat). */
 export function SectionTitle({
   children,
   as: Tag = "h2",

@@ -57,7 +57,7 @@ export function SiteHeader({ contained = false }: { contained?: boolean }) {
               <Link
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className="group relative font-serif text-[1.05rem] leading-none text-mist/85 transition-colors hover:text-mist aria-[current=page]:text-mist"
+                className="group relative text-[0.95rem] font-medium leading-none text-mist/80 transition-colors hover:text-mist aria-[current=page]:text-mist"
               >
                 {item.label}
                 <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-mist/70 transition-transform duration-500 ease-[var(--ease-editorial)] group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
