@@ -3,8 +3,9 @@ import { Destinations } from "@/components/home/destinations";
 import { FeaturedTrips } from "@/components/home/featured-trips";
 import { Hero } from "@/components/home/hero";
 import { Services } from "@/components/home/services";
+import { TripFinder } from "@/components/home/trip-finder";
 import { FinalCta } from "@/components/final-cta";
-import { getTrip, heroSlugs } from "@/data/trips";
+import { getTrip, heroSlugs, trips } from "@/data/trips";
 import type { Trip } from "@/data/types";
 
 export default function HomePage() {
@@ -31,6 +32,7 @@ export default function HomePage() {
     <>
       <Hero slides={slides} />
       <main id="sadrzaj">
+        <TripFinder trips={trips} />
         <FeaturedTrips />
         <Destinations />
         <Services />

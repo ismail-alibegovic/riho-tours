@@ -66,7 +66,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
       className="relative bg-ink p-2 sm:p-3 lg:p-5"
     >
       <div
-        className="grain relative isolate flex min-h-[calc(100svh-1rem)] flex-col overflow-hidden rounded-[18px] bg-petrol-2 sm:min-h-[calc(100svh-1.5rem)] lg:min-h-[max(44rem,calc(100svh-2.5rem))] lg:rounded-[22px]"
+        className="relative isolate flex min-h-[calc(100svh-1rem)] flex-col overflow-hidden rounded-[18px] bg-petrol-2 sm:min-h-[calc(100svh-1.5rem)] lg:min-h-[max(44rem,calc(100svh-2.5rem))] lg:rounded-[22px]"
         onPointerEnter={() => setHovering(true)}
         onPointerLeave={() => setHovering(false)}
         onFocusCapture={() => setHovering(true)}
@@ -108,7 +108,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
         <SiteHeader />
 
         {/* Vertical section rail (desktop) */}
-        <div className="pointer-events-none absolute bottom-10 left-6 top-32 z-20 hidden w-6 flex-col items-center lg:flex xl:left-9">
+        <div className="pointer-events-none absolute bottom-16 left-6 top-32 z-20 hidden w-6 flex-col items-center lg:flex xl:left-9">
           <span className="w-px flex-1 bg-mist/25" />
           <ol className="pointer-events-auto my-5 flex flex-col items-center gap-7" aria-label="Slajdovi">
             {slides.map((s, i) => (
@@ -148,9 +148,8 @@ export function Hero({ slides }: { slides: Slide[] }) {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
                   transition={{ duration: 0.55, ease: EASE }}
-                  className="flex items-center gap-3 whitespace-nowrap text-[0.66rem] font-medium uppercase tracking-[0.24em] text-sand-light sm:text-[0.72rem] sm:tracking-[0.28em]"
+                  className="whitespace-nowrap text-sm font-medium text-sand-light"
                 >
-                  <span className="inline-block h-px w-8 bg-sand-light/70" />
                   {active.country} · {active.dates[0]}
                 </motion.p>
               </AnimatePresence>
@@ -160,11 +159,11 @@ export function Hero({ slides }: { slides: Slide[] }) {
               initial={reduce ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
-              className="font-sans text-[clamp(2.7rem,12.4vw,4.6rem)] font-normal uppercase leading-[0.92] tracking-[0.015em] text-mist sm:text-[clamp(4rem,10vw,6rem)] lg:text-[clamp(4rem,5.6vw,6.6rem)]"
+              className="font-sans text-[clamp(2.35rem,11vw,4rem)] font-medium uppercase leading-[0.98] tracking-[-0.01em] text-mist sm:text-[clamp(3.4rem,8.5vw,5.2rem)] lg:text-[clamp(3.3rem,4.7vw,5.6rem)]"
             >
               <span className="block">Otkrijte</span>
               <span className="mt-1 block whitespace-nowrap">
-                <span className="mr-[0.18em] font-serif text-[1.08em] font-normal normal-case italic tracking-normal">
+                <span className="mr-[0.16em] font-serif text-[0.98em] font-normal normal-case italic tracking-normal">
                   ljepotu
                 </span>
                 svijeta
@@ -175,7 +174,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
               initial={reduce ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: EASE, delay: 0.35 }}
-              className="mt-4 max-w-[30rem] text-[0.98rem] font-light leading-relaxed text-mist/85 sm:mt-7 sm:text-[1.08rem]"
+              className="mt-4 max-w-[30rem] text-[0.95rem] leading-relaxed text-mist/85 sm:mt-6 sm:text-[1.02rem]"
             >
               <span className="sm:hidden">
                 Grupna i individualna putovanja iz Breze – krojena po vašoj mjeri.
@@ -195,7 +194,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
             >
               <Link
                 href="/putovanja"
-                className="group inline-flex items-center gap-3 rounded-[10px] bg-petrol px-5 py-3 text-[0.95rem] font-medium text-mist sm:px-6 sm:py-3.5 sm:text-[0.98rem] shadow-[0_10px_30px_-12px_rgba(0,0,0,.7)] ring-1 ring-mist/10 transition hover:bg-[#2f5156]"
+                className="group inline-flex items-center gap-3 rounded-[10px] bg-petrol px-5 py-3 text-[0.95rem] font-semibold text-mist sm:px-6 sm:py-3.5 shadow-[0_10px_30px_-12px_rgba(0,0,0,.7)] ring-1 ring-mist/10 transition hover:bg-[#2f5156]"
               >
                 Istraži putovanja
                 <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -294,7 +293,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
         </div>
 
         {/* Counter + progress (desktop) */}
-        <div className="absolute bottom-8 right-10 z-20 hidden items-center gap-4 text-[0.72rem] tracking-[0.2em] text-mist/75 lg:flex">
+        <div className="absolute bottom-16 right-10 z-20 hidden items-center gap-4 text-[0.72rem] tracking-[0.2em] text-mist/75 lg:flex">
           <button
             type="button"
             onClick={() => setPaused((p) => !p)}

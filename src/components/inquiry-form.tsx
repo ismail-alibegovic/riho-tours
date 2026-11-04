@@ -1,59 +1,68 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
 import { site } from "@/data/site";
 import { Check, Copy, Message, Phone } from "./icons";
+import { ChoiceList, Select, Stepper, TextArea, TextField } from "./ui/fields";
 
 interface Props {
   tripTitle?: string;
   dates?: string[];
   departures?: string[];
-  compact?: boolean;
 }
 
+type Errors = Partial<Record<"name" | "phone" | "term", string>>;
+
 /**
- * Builds an inquiry and hands it to the agency's existing channels
- * (SMS to the published mobile number, Facebook Messenger, phone call).
- * Nothing is stored or sent by this demo itself.
+ * Inquiry for an offer. There is no booking backend: the message is handed to
+ * the agency's published channels – SMS to the mobile number on phones,
+ * copy + Messenger or a call on desktop.
  */
-export function InquiryForm({ tripTitle, dates, departures, compact }: Props) {
-  const id = useId();
+export function InquiryForm({ tripTitle, dates = [], departures = [] }: Props) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [people, setPeople] = useState("2");
-  const [term, setTerm] = useState(dates?.length === 1 ? dates[0] : "");
+  const [people, setPeople] = useState(2);
+  const [term, setTerm] = useState(dates.length === 1 ? dates[0] : "");
   const [from, setFrom] = useState("");
   const [note, setNote] = useState("");
-  const [ready, setReady] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
+  const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
 
   const message = [
-    "Poštovani, šaljem upit putem web stranice.",
-    tripTitle && `Aranžman: ${tripTitle}`,
+    tripTitle ? `Upit za aranžman: ${tripTitle}` : "Upit za putovanje",
     term && `Termin: ${term}`,
     from && `Polazak iz: ${from}`,
     `Broj putnika: ${people}`,
     note && `Napomena: ${note}`,
-    `Ime i prezime: ${name}`,
-    `Kontakt telefon: ${phone}`,
+    `Ime: ${name.trim()}`,
+    `Telefon: ${phone.trim()}`,
   ]
     .filter(Boolean)
     .join("\n");
 
   const smsHref = `sms:${site.phones[0].raw}?&body=${encodeURIComponent(message)}`;
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const next: typeof errors = {};
-    if (name.trim().length < 2) next.name = "Unesite ime i prezime.";
-    if (phone.replace(/\D/g, "").length < 6) next.phone = "Unesite broj telefona za povratni poziv.";
-    setErrors(next);
-    if (Object.keys(next).length) {
-      document.getElementById(`${id}-${next.name ? "name" : "phone"}`)?.focus();
+  const validate = () => {
+    const e: Errors = {};
+    if (name.trim().length < 2) e.name = "Upišite ime i prezime.";
+    if (phone.replace(/\D/g, "").length < 6) e.phone = "Upišite broj na koji vas agencija može nazvati.";
+    if (dates.length > 1 && !term) e.term = "Odaberite termin.";
+    setErrors(e);
+    return e;
+  };
+
+  const submit = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    const e = validate();
+    if (Object.keys(e).length) {
+      const first = document.querySelector<HTMLElement>("[aria-invalid=true], fieldset[aria-describedby] input");
+      first?.focus();
       return;
     }
-    setReady(true);
+    setDone(true);
+    // Phones can hand the prepared message straight to the SMS app.
+    if (window.matchMedia("(pointer: coarse)").matches) window.location.href = smsHref;
   };
 
   const copy = async () => {
@@ -62,39 +71,41 @@ export function InquiryForm({ tripTitle, dates, departures, compact }: Props) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      setCopied(false);
+      /* clipboard unavailable – text stays visible for manual copy */
     }
   };
 
-  const field =
-    "w-full rounded-[10px] border border-mist/15 bg-ink px-4 py-3 text-base text-mist sm:text-[0.95rem] placeholder:text-fog/60 outline-none transition focus:border-mist/60 aria-[invalid=true]:border-[#d98c7a]";
-  const label = "mb-1.5 block text-[0.72rem] font-medium uppercase tracking-[0.18em] text-fog";
-
-  if (ready) {
+  if (done) {
     return (
-      <div className="space-y-5" aria-live="polite">
-        <div>
-          <p className="font-serif text-[1.7rem] italic leading-tight text-mist">Upit je spreman.</p>
-          <p className="mt-2 text-[0.92rem] leading-relaxed text-fog">
-            Odaberite kako ga želite poslati agenciji. Demo stranica ne pohranjuje podatke –
-            poruka se šalje iz vaše aplikacije.
-          </p>
+      <div aria-live="polite">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-riho-green/20 text-riho-green">
+            <Check className="size-4" />
+          </span>
+          <div>
+            <p className="font-semibold text-mist">Upit je pripremljen</p>
+            <p className="mt-1 text-sm leading-relaxed text-fog">
+              Pošaljite ga agenciji jednim od kanala ispod. Na telefonu se SMS otvara automatski.
+            </p>
+          </div>
         </div>
-        <pre className="max-h-56 overflow-auto whitespace-pre-wrap rounded-[10px] border border-mist/10 bg-ink p-4 font-sans text-[0.85rem] leading-relaxed text-mist/85">
+
+        <pre className="mt-5 whitespace-pre-wrap rounded-lg border border-mist/10 bg-ink p-4 font-sans text-[0.85rem] leading-relaxed text-mist/85">
           {message}
         </pre>
-        <div className="grid gap-2.5">
+
+        <div className="mt-5 grid gap-2.5">
           <a
             href={smsHref}
-            className="inline-flex items-center justify-center gap-2.5 rounded-[10px] bg-mist px-5 py-3.5 text-[0.95rem] font-medium text-ink transition hover:bg-white"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-mist font-semibold text-ink transition hover:bg-white"
           >
-            <Message className="size-4" /> Pošalji SMS na {site.phones[0].display}
+            <Message className="size-4" /> Pošalji SMS
           </a>
-          <div className="grid gap-2.5 sm:grid-cols-2">
+          <div className="grid grid-cols-2 gap-2.5">
             <button
               type="button"
               onClick={copy}
-              className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-mist/25 px-4 py-3 text-[0.9rem] text-mist transition hover:border-mist"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-mist/20 text-sm font-medium text-mist transition hover:border-mist/50"
             >
               {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
               {copied ? "Kopirano" : "Kopiraj tekst"}
@@ -104,142 +115,83 @@ export function InquiryForm({ tripTitle, dates, departures, compact }: Props) {
               target="_blank"
               rel="noreferrer"
               onClick={copy}
-              className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-mist/25 px-4 py-3 text-[0.9rem] text-mist transition hover:border-mist"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-mist/20 text-sm font-medium text-mist transition hover:border-mist/50"
             >
-              <Message className="size-4" /> Messenger
+              Messenger
             </a>
           </div>
           <a
             href={site.phones[0].href}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-[0.9rem] text-mist/85 transition hover:text-mist"
+            className="inline-flex h-11 items-center justify-center gap-2 text-sm text-mist/85 hover:text-mist"
           >
-            <Phone className="size-4 text-sand-light" /> Ili nazovite {site.phones[0].display}
+            <Phone className="size-4 text-sand-light" /> Nazovite {site.phones[0].display}
           </a>
         </div>
         <button
           type="button"
-          onClick={() => setReady(false)}
-          className="text-[0.85rem] text-fog underline underline-offset-4 hover:text-mist"
+          onClick={() => setDone(false)}
+          className="mt-2 text-sm text-fog underline underline-offset-4 hover:text-mist"
         >
-          Izmijeni upit
+          Izmijeni podatke
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={submit} noValidate className="space-y-4">
-      <div className={compact ? "space-y-4" : "grid gap-4 sm:grid-cols-2"}>
-        <div>
-          <label htmlFor={`${id}-name`} className={label}>
-            Ime i prezime *
-          </label>
-          <input
-            id={`${id}-name`}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoComplete="name"
-            aria-invalid={!!errors.name}
-            aria-describedby={errors.name ? `${id}-name-err` : undefined}
-            className={field}
+    <form onSubmit={submit} noValidate className="space-y-5">
+      {dates.length > 1 && (
+        <ChoiceList label="Termin" value={term} onChange={setTerm} options={dates} error={errors.term} />
+      )}
+      {dates.length === 0 && (
+        <TextField label="Okvirni termin" value={term} onChange={setTerm} optional placeholder="npr. druga polovina decembra" />
+      )}
+      {dates.length === 1 && (
+        <p className="rounded-lg bg-ink px-3.5 py-3 text-sm text-fog">
+          Termin: <span className="font-medium text-mist">{dates[0]}</span>
+        </p>
+      )}
+
+      <div className="grid grid-cols-[8.5rem_1fr] gap-4">
+        <Stepper label="Broj putnika" value={people} onChange={setPeople} />
+        {departures.length > 1 ? (
+          <Select
+            label="Polazak iz"
+            value={from}
+            onChange={setFrom}
+            options={[{ value: "", label: "Odaberite" }, ...departures.map((d) => ({ value: d, label: d }))]}
           />
-          {errors.name && (
-            <p id={`${id}-name-err`} className="mt-1.5 text-[0.8rem] text-[#e7a493]">
-              {errors.name}
-            </p>
-          )}
-        </div>
-        <div>
-          <label htmlFor={`${id}-phone`} className={label}>
-            Telefon *
-          </label>
-          <input
-            id={`${id}-phone`}
-            type="tel"
-            inputMode="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            autoComplete="tel"
-            placeholder="06x xxx xxx"
-            aria-invalid={!!errors.phone}
-            aria-describedby={errors.phone ? `${id}-phone-err` : undefined}
-            className={field}
-          />
-          {errors.phone && (
-            <p id={`${id}-phone-err`} className="mt-1.5 text-[0.8rem] text-[#e7a493]">
-              {errors.phone}
-            </p>
-          )}
-        </div>
-      </div>
-      <div className={compact ? "grid grid-cols-2 gap-4" : "grid gap-4 sm:grid-cols-3"}>
-        <div>
-          <label htmlFor={`${id}-people`} className={label}>
-            Putnika
-          </label>
-          <select id={`${id}-people`} value={people} onChange={(e) => setPeople(e.target.value)} className={field}>
-            {Array.from({ length: 10 }, (_, i) => String(i + 1)).map((n) => (
-              <option key={n}>{n}</option>
-            ))}
-            <option value="više od 10">10+</option>
-          </select>
-        </div>
-        {dates && dates.length > 0 ? (
-          <div>
-            <label htmlFor={`${id}-term`} className={label}>
-              Termin
-            </label>
-            <select id={`${id}-term`} value={term} onChange={(e) => setTerm(e.target.value)} className={field}>
-              {dates.length > 1 && <option value="">Odaberite</option>}
-              {dates.map((d) => (
-                <option key={d}>{d}</option>
-              ))}
-            </select>
-          </div>
         ) : (
-          <div>
-            <label htmlFor={`${id}-term`} className={label}>
-              Željeni termin
-            </label>
-            <input id={`${id}-term`} value={term} onChange={(e) => setTerm(e.target.value)} placeholder="npr. decembar" className={field} />
-          </div>
-        )}
-        {departures && departures.length > 1 && (
-          <div className={compact ? "col-span-2" : ""}>
-            <label htmlFor={`${id}-from`} className={label}>
-              Polazak iz
-            </label>
-            <select id={`${id}-from`} value={from} onChange={(e) => setFrom(e.target.value)} className={field}>
-              <option value="">Odaberite</option>
-              {departures.map((d) => (
-                <option key={d}>{d}</option>
-              ))}
-            </select>
-          </div>
+          <TextField label="Mjesto polaska" value={from} onChange={setFrom} optional placeholder="npr. Breza" />
         )}
       </div>
-      <div>
-        <label htmlFor={`${id}-note`} className={label}>
-          {tripTitle ? "Napomena" : "Šta planirate?"}
-        </label>
-        <textarea
-          id={`${id}-note`}
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          rows={compact ? 3 : 4}
-          placeholder={tripTitle ? "Jednokrevetna soba, djeca, pitanja…" : "Destinacija, broj osoba, budžet, posebne želje…"}
-          className={`${field} resize-y`}
-        />
-      </div>
+
+      <TextField label="Ime i prezime" value={name} onChange={setName} error={errors.name} autoComplete="name" />
+      <TextField
+        label="Telefon"
+        type="tel"
+        inputMode="tel"
+        value={phone}
+        onChange={setPhone}
+        error={errors.phone}
+        autoComplete="tel"
+        placeholder="061 234 567"
+      />
+      <TextArea
+        label={tripTitle ? "Napomena" : "Šta planirate?"}
+        value={note}
+        onChange={setNote}
+        placeholder={tripTitle ? "Jednokrevetna soba, djeca, pitanja o programu…" : "Destinacija, broj osoba, okvirni termin i budžet"}
+      />
+
       <button
         type="submit"
-        className="w-full rounded-[10px] bg-mist px-5 py-3.5 text-[0.95rem] font-medium text-ink transition hover:bg-white"
+        className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-mist font-semibold text-ink transition hover:bg-white"
       >
-        Pripremi upit
+        Pošalji upit
       </button>
-      <p className="text-[0.78rem] leading-relaxed text-fog">
-        Upit šaljete putem SMS-a, Messengera ili telefona – bez rezervacije i plaćanja na
-        ovoj stranici.
+      <p className="text-center text-xs leading-relaxed text-fog">
+        Bez rezervacije i plaćanja. Agencija vam se javlja radnim danima od 8 do 16 h.
       </p>
     </form>
   );

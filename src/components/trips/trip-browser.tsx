@@ -9,6 +9,7 @@ import { aranzmanWord, monthLabel, tripMonths } from "@/lib/format";
 import { defaultFilters, filterTrips, type Filters, type SortKey } from "@/lib/search";
 import { Close, Search } from "../icons";
 import { TripCard, TripRow } from "../trip-card";
+import { Select } from "../ui/fields";
 
 const PRICE_STEPS = [100, 250, 500, 900];
 
@@ -77,18 +78,16 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
     !!filters.q || !!filters.kategorija || !!filters.prevoz || !!filters.mjesec || !!filters.maxCijena;
 
   const chip = (on: boolean) =>
-    `shrink-0 rounded-full border px-4 py-2 text-[0.85rem] transition ${
+    `shrink-0 rounded-lg border px-3.5 py-2 text-sm font-medium transition ${
       on
         ? "border-mist bg-mist text-ink"
-        : "border-mist/20 text-mist/85 hover:border-mist/60 hover:text-mist"
+        : "border-mist/15 text-mist/80 hover:border-mist/40 hover:text-mist"
     }`;
 
-  const selectCls =
-    "w-full appearance-none rounded-[10px] border border-mist/15 bg-ink-2 px-3.5 py-3 pr-9 text-base text-mist sm:px-4 sm:text-[0.92rem] outline-none transition focus:border-mist/60 bg-[url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239FB0BA' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>\")] bg-[length:12px] bg-[right_14px_center] bg-no-repeat";
 
   return (
     <div id="pretraga" className="scroll-mt-6">
-      <div className="rounded-[18px] border border-mist/10 bg-ink-2/60 p-3 sm:p-6">
+      <div className="rounded-2xl border border-mist/10 bg-ink-2 p-3 sm:p-5">
         <form
           role="search"
           onSubmit={(e) => e.preventDefault()}
@@ -104,7 +103,7 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
               value={filters.q}
               onChange={(e) => update({ q: e.target.value })}
               placeholder="Gdje želite putovati?"
-              className="w-full rounded-[10px] border border-mist/15 bg-ink-2 py-3 pl-11 pr-4 text-base text-mist placeholder:text-fog/70 outline-none transition focus:border-mist/60 sm:text-[0.95rem]"
+              className="h-12 w-full rounded-lg border border-mist/15 bg-ink pl-11 pr-4 text-base text-mist outline-none transition placeholder:text-fog/70 hover:border-mist/30 focus:border-sand-light focus:ring-2 focus:ring-sand-light/25 sm:text-[0.95rem]"
             />
           </label>
           <button
@@ -112,8 +111,8 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
             onClick={() => setShowFilters((v) => !v)}
             aria-expanded={showFilters}
             aria-controls="filteri"
-            className={`relative shrink-0 rounded-[10px] border px-4 text-[0.88rem] transition lg:hidden ${
-              showFilters ? "border-mist bg-mist text-ink" : "border-mist/15 bg-ink-2 text-mist"
+            className={`relative shrink-0 rounded-lg border px-4 text-[0.88rem] transition lg:hidden ${
+              showFilters ? "border-mist bg-mist text-ink" : "border-mist/15 bg-ink text-mist"
             }`}
           >
             Filteri
@@ -123,60 +122,42 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
           </button>
           </div>
           <div id="filteri" className={`${showFilters ? "grid" : "hidden"} grid-cols-2 gap-2 sm:gap-3 lg:contents`}>
-          <label>
-            <span className="sr-only">Prevoz</span>
-            <select
-              value={filters.prevoz}
-              onChange={(e) => update({ prevoz: e.target.value as Transport | "" })}
-              className={selectCls}
-            >
-              <option value="">Prevoz: svi</option>
-              <option value="bus">Autobusom</option>
-              <option value="avio">Avionom</option>
-            </select>
-          </label>
-          <label>
-            <span className="sr-only">Mjesec polaska</span>
-            <select
-              value={filters.mjesec}
-              onChange={(e) => update({ mjesec: e.target.value })}
-              className={selectCls}
-            >
-              <option value="">Mjesec: svi</option>
-              {months.map((m) => (
-                <option key={m} value={m}>
-                  {monthLabel(m)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span className="sr-only">Najviša cijena</span>
-            <select
-              value={filters.maxCijena}
-              onChange={(e) => update({ maxCijena: Number(e.target.value) })}
-              className={selectCls}
-            >
-              <option value={0}>Cijena: sve</option>
-              {PRICE_STEPS.map((p) => (
-                <option key={p} value={p}>
-                  do {p} KM
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span className="sr-only">Sortiranje</span>
-            <select
-              value={filters.sort}
-              onChange={(e) => update({ sort: e.target.value as SortKey })}
-              className={selectCls}
-            >
-              <option value="datum">Po datumu</option>
-              <option value="cijena-rastuce">Cijena: od najniže</option>
-              <option value="cijena-opadajuce">Cijena: od najviše</option>
-            </select>
-          </label>
+          <Select
+            hideLabel
+            label="Prevoz"
+            value={filters.prevoz}
+            onChange={(v) => update({ prevoz: v as Transport | "" })}
+            options={[
+              { value: "", label: "Prevoz: svi" },
+              { value: "bus", label: "Autobusom" },
+              { value: "avio", label: "Avionom" },
+            ]}
+          />
+          <Select
+            hideLabel
+            label="Mjesec polaska"
+            value={filters.mjesec}
+            onChange={(v) => update({ mjesec: v })}
+            options={[{ value: "", label: "Mjesec: svi" }, ...months.map((m) => ({ value: m, label: monthLabel(m) }))]}
+          />
+          <Select
+            hideLabel
+            label="Najviša cijena"
+            value={String(filters.maxCijena)}
+            onChange={(v) => update({ maxCijena: Number(v) })}
+            options={[{ value: "0", label: "Cijena: sve" }, ...PRICE_STEPS.map((p) => ({ value: String(p), label: `do ${p} KM` }))]}
+          />
+          <Select
+            hideLabel
+            label="Sortiranje"
+            value={filters.sort}
+            onChange={(v) => update({ sort: v as SortKey })}
+            options={[
+              { value: "datum", label: "Po datumu" },
+              { value: "cijena-rastuce", label: "Cijena: najniža" },
+              { value: "cijena-opadajuce", label: "Cijena: najviša" },
+            ]}
+          />
           </div>
         </form>
 
@@ -209,7 +190,7 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-4 sm:mt-10">
         <p className="text-[0.95rem] text-fog" aria-live="polite">
-          <span className="font-serif text-[1.6rem] italic text-mist">{results.length}</span>{" "}
+          <span className="font-semibold text-mist">{results.length}</span>{" "}
           {aranzmanWord(results.length)}
           {filters.kategorija && <> · {categories[filters.kategorija].label}</>}
         </p>
@@ -226,7 +207,7 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
 
       {results.length === 0 ? (
         <div className="mt-10 rounded-[18px] border border-dashed border-mist/20 px-6 py-16 text-center">
-          <p className="font-serif text-[1.8rem] italic text-mist">Nema aranžmana za odabrane filtere.</p>
+          <p className="text-xl font-semibold text-mist">Nema aranžmana za odabrane filtere.</p>
           <p className="mx-auto mt-3 max-w-md text-fog">
             Promijenite kriterije ili nam pošaljite upit – rado ćemo pripremiti individualnu ponudu.
           </p>

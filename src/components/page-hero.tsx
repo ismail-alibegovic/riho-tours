@@ -16,7 +16,7 @@ export function PageHero({
   return (
     <section className="bg-ink p-2 sm:p-3 lg:p-5">
       <div
-        className={`grain relative isolate flex flex-col overflow-hidden rounded-[18px] bg-petrol-2 lg:rounded-[22px] ${
+        className={`relative isolate flex flex-col overflow-hidden rounded-[18px] bg-petrol-2 lg:rounded-[22px] ${
           size === "lg" ? "min-h-[min(46rem,92svh)]" : "min-h-[26rem] sm:min-h-[30rem] lg:min-h-[34rem]"
         }`}
       >

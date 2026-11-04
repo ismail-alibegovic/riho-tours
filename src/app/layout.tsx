@@ -1,20 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Montserrat, Playfair_Display } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/data/site";
 import "./globals.css";
 
-const jost = Jost({
-  variable: "--font-jost",
+const sans = Montserrat({
+  variable: "--font-sans-family",
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const serif = Playfair_Display({
+  variable: "--font-serif-family",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -49,7 +49,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="bs" className={`${jost.variable} ${cormorant.variable} antialiased`}>
+    <html lang="bs" className={`${sans.variable} ${serif.variable} antialiased`}>
       <body className="min-h-dvh bg-ink text-mist">
         <a
           href="#sadrzaj"

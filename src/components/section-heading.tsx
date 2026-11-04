@@ -1,39 +1,49 @@
 import type { ReactNode } from "react";
 
-export function Eyebrow({ children, index }: { children: ReactNode; index?: string }) {
-  return (
-    <p className="flex items-center gap-3 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-sand-light">
-      {index && <span className="text-fog">{index}</span>}
-      <span aria-hidden className="inline-block h-px w-8 bg-sand-light/60" />
-      {children}
-    </p>
-  );
+/** Small label above a section title. */
+export function Eyebrow({ children }: { children: ReactNode }) {
+  return <p className="text-sm font-medium text-sand-light">{children}</p>;
 }
 
-/**
- * Mirrors the hero headline: uppercase sans with one italic serif word.
- * Pass the emphasised word through `em`.
- */
-export function DisplayTitle({
-  before,
-  em,
-  after,
+/** Section title – plain sentence case; the serif is reserved for the hero and pull quotes. */
+export function SectionTitle({
+  children,
   as: Tag = "h2",
   className = "",
 }: {
-  before?: string;
-  em: string;
-  after?: string;
+  children: ReactNode;
   as?: "h1" | "h2" | "h3";
   className?: string;
 }) {
   return (
     <Tag
-      className={`font-sans text-[clamp(2.1rem,5.4vw,4.4rem)] font-normal uppercase leading-[0.98] tracking-[0.01em] text-mist ${className}`}
+      className={`text-[clamp(1.85rem,3.6vw,3rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-mist ${className}`}
     >
-      {before && <>{before} </>}
-      <span className="font-serif text-[1.1em] normal-case italic tracking-normal">{em}</span>
-      {after && <> {after}</>}
+      {children}
     </Tag>
+  );
+}
+
+/** Consistent section header: label + title on the left, optional action/intro on the right. */
+export function SectionHeader({
+  label,
+  title,
+  intro,
+  action,
+}: {
+  label?: string;
+  title: ReactNode;
+  intro?: ReactNode;
+  action?: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+      <div className="max-w-2xl">
+        {label && <Eyebrow>{label}</Eyebrow>}
+        <SectionTitle className={label ? "mt-3" : ""}>{title}</SectionTitle>
+        {intro && <p className="mt-4 max-w-xl text-[0.98rem] leading-relaxed text-fog">{intro}</p>}
+      </div>
+      {action && <div className="shrink-0">{action}</div>}
+    </div>
   );
 }

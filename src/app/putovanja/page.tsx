@@ -16,14 +16,11 @@ export default function TripsPage() {
   return (
     <>
       <PageHero image={img.venecijaSalute}>
-        <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-sand-light">
+        <p className="text-sm font-medium text-sand-light">
           Ponuda · {trips.length} aranžmana
         </p>
-        <h1 className="mt-5 font-sans text-[clamp(2.8rem,7vw,6rem)] font-normal uppercase leading-[0.95] text-mist">
-          Sva{" "}
-          <span className="font-serif text-[1.08em] normal-case italic">putovanja</span>
-        </h1>
-        <p className="mt-5 max-w-xl text-[1.05rem] font-light leading-relaxed text-mist/85">
+        <h1 className="mt-3 text-[clamp(2.2rem,5vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-mist">Sva putovanja</h1>
+        <p className="mt-4 max-w-xl text-[1rem] leading-relaxed text-mist/85">
           Pretražite objavljene aranžmane po destinaciji, mjesecu polaska, prevozu i cijeni.
           Sve cijene su u KM, prema objavi agencije.
         </p>

@@ -3,7 +3,7 @@ import { Facebook, Instagram, Message, Phone, Pin } from "@/components/icons";
 import { InquiryForm } from "@/components/inquiry-form";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
-import { Eyebrow } from "@/components/section-heading";
+import { Eyebrow, SectionTitle } from "@/components/section-heading";
 import { img } from "@/data/images";
 import { site } from "@/data/site";
 
@@ -30,12 +30,9 @@ export default function ContactPage() {
   return (
     <>
       <PageHero image={img.kotorZaljev}>
-        <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-sand-light">Kontakt</p>
-        <h1 className="mt-5 font-sans text-[clamp(2.8rem,7vw,6rem)] font-normal uppercase leading-[0.95] text-mist">
-          Javite{" "}
-          <span className="font-serif text-[1.08em] normal-case italic">nam</span> se
-        </h1>
-        <p className="mt-5 max-w-xl text-[1.05rem] font-light leading-relaxed text-mist/85">
+        <p className="text-sm font-medium text-sand-light">Kontakt</p>
+        <h1 className="mt-3 text-[clamp(2.2rem,5vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-mist">Javite nam se</h1>
+        <p className="mt-4 max-w-xl text-[1rem] leading-relaxed text-mist/85">
           {site.hours}. Pozovite, pošaljite poruku ili pripremite upit ispod – javljamo se sa
           prijedlogom i dostupnim terminima.
         </p>
@@ -53,12 +50,12 @@ export default function ContactPage() {
                     {...(c.external ? { target: "_blank", rel: "noreferrer" } : {})}
                     className="group flex items-center gap-5 py-5"
                   >
-                    <span className="grid size-11 shrink-0 place-items-center rounded-full border border-mist/20 text-sand-light transition group-hover:border-mist group-hover:text-mist">
+                    <span className="grid size-11 shrink-0 place-items-center rounded-full border border-mist/20 text-sand-light transition group-hover:border-mist/50">
                       <c.icon className="size-4" />
                     </span>
                     <span>
-                      <span className="block text-[0.7rem] uppercase tracking-[0.2em] text-fog">{c.label}</span>
-                      <span className="mt-0.5 block text-[1.05rem] text-mist group-hover:underline">{c.value}</span>
+                      <span className="block text-[0.8rem] text-fog">{c.label}</span>
+                      <span className="mt-0.5 block text-[1rem] font-medium text-mist group-hover:underline">{c.value}</span>
                     </span>
                   </a>
                 </li>
@@ -66,11 +63,11 @@ export default function ContactPage() {
             </ul>
             <dl className="mt-10 space-y-4 text-[0.92rem]">
               <div>
-                <dt className="text-[0.7rem] uppercase tracking-[0.2em] text-fog">Radno vrijeme</dt>
+                <dt className="text-[0.8rem] text-fog">Radno vrijeme</dt>
                 <dd className="mt-1 text-mist">{site.hours}</dd>
               </div>
               <div>
-                <dt className="text-[0.7rem] uppercase tracking-[0.2em] text-fog">Reklamacije</dt>
+                <dt className="text-[0.8rem] text-fog">Reklamacije</dt>
                 <dd className="mt-1">
                   <a href={site.complaints.href} className="text-mist hover:underline">
                     {site.complaints.display}
@@ -81,11 +78,8 @@ export default function ContactPage() {
           </Reveal>
 
           <Reveal delay={0.1} className="lg:col-span-6 lg:col-start-7">
-            <div className="rounded-[18px] border border-mist/12 bg-ink-2 p-6 sm:p-9">
-              <h2 className="font-sans text-[clamp(1.8rem,3vw,2.4rem)] font-normal uppercase leading-none text-mist">
-                Upit za{" "}
-                <span className="font-serif normal-case italic">putovanje</span>
-              </h2>
+            <div className="rounded-2xl border border-mist/10 bg-ink-2 p-6 sm:p-8">
+              <SectionTitle className="!text-[1.6rem]">Upit za putovanje</SectionTitle>
               <p className="mb-8 mt-3 text-[0.95rem] text-fog">
                 Grupno, individualno, bračno ili poslovno putovanje – opišite šta planirate.
               </p>

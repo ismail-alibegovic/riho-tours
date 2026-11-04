@@ -53,7 +53,7 @@ export function SiteHeader() {
               <Link
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className="group relative font-serif text-[1.2rem] leading-none tracking-[0.01em] text-mist/85 transition-colors hover:text-mist aria-[current=page]:text-mist"
+                className="group relative font-serif text-[1.05rem] leading-none text-mist/85 transition-colors hover:text-mist aria-[current=page]:text-mist"
               >
                 {item.label}
                 <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-mist/70 transition-transform duration-500 ease-[var(--ease-editorial)] group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
@@ -71,7 +71,7 @@ export function SiteHeader() {
         <span aria-hidden className="mx-5 h-7 w-px bg-mist/25" />
         <Link
           href="/kontakt"
-          className="rounded-full border border-mist/30 bg-white/5 px-5 py-2.5 text-[0.8rem] font-medium uppercase tracking-[0.14em] text-mist backdrop-blur-md transition hover:border-mist/60 hover:bg-white/15"
+          className="rounded-lg border border-mist/30 bg-white/5 px-4 py-2.5 text-sm font-semibold text-mist backdrop-blur-md transition hover:border-mist/60 hover:bg-white/15"
         >
           Pošalji upit
         </Link>
@@ -139,11 +139,8 @@ export function SiteHeader() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       aria-current={isActive(item.href) ? "page" : undefined}
-                      className="flex items-baseline gap-4 border-b border-mist/10 py-4 font-serif text-[2.4rem] leading-none text-mist aria-[current=page]:text-sand-light"
+                      className="flex items-baseline gap-4 border-b border-mist/10 py-4 text-[1.6rem] font-semibold leading-none text-mist aria-[current=page]:text-sand-light"
                     >
-                      <span className="font-sans text-xs tracking-[0.2em] text-fog">
-                        0{i + 1}
-                      </span>
                       {item.label}
                     </Link>
                   </motion.li>
