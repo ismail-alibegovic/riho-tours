@@ -30,9 +30,9 @@ export default function HomePage() {
 
   return (
     <>
-      <Hero slides={slides} />
+      <Hero slides={slides} finder={<TripFinder trips={trips} variant="hero" />} />
       <main id="sadrzaj">
-        <TripFinder trips={trips} />
+        <TripFinder trips={trips} className="lg:hidden" />
         <FeaturedTrips />
         <Destinations />
         <Services />

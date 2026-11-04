@@ -17,7 +17,7 @@ type Slide = Pick<
   "slug" | "name" | "tagline" | "country" | "region" | "image" | "dates" | "priceFrom" | "transport" | "duration"
 > & { heroImage: Trip["image"]; cardImage: Trip["image"] };
 
-export function Hero({ slides }: { slides: Slide[] }) {
+export function Hero({ slides, finder }: { slides: Slide[]; finder?: React.ReactNode }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -108,7 +108,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
         <SiteHeader />
 
         {/* Vertical section rail (desktop) */}
-        <div className="pointer-events-none absolute bottom-16 left-6 top-32 z-20 hidden w-6 flex-col items-center lg:flex xl:left-9">
+        <div className="pointer-events-none absolute bottom-[8.75rem] left-6 top-32 z-20 hidden w-6 flex-col items-center lg:flex xl:left-9">
           <span className="w-px flex-1 bg-mist/25" />
           <ol className="pointer-events-auto my-5 flex flex-col items-center gap-7" aria-label="Slajdovi">
             {slides.map((s, i) => (
@@ -138,7 +138,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
         </div>
 
         {/* Content */}
-        <div className="relative flex flex-1 flex-col px-5 pb-5 pt-6 sm:px-8 sm:pb-8 sm:pt-10 lg:grid lg:grid-cols-[minmax(0,46%)_minmax(0,1fr)] lg:items-center lg:gap-6 lg:px-0 lg:pb-20 lg:pl-[7.5rem] lg:pt-0 xl:pl-[9rem]">
+        <div className="relative flex flex-1 flex-col px-5 pb-5 pt-6 sm:px-8 sm:pb-8 sm:pt-10 lg:grid lg:grid-cols-[minmax(0,46%)_minmax(0,1fr)] lg:items-center lg:gap-6 lg:px-0 lg:pb-6 lg:pl-[7.5rem] lg:pt-2 xl:pl-[9rem]">
           <div className="max-w-xl lg:max-w-none lg:-translate-y-4">
             <div className="mb-4 h-5 overflow-hidden sm:mb-6" aria-live="polite">
               <AnimatePresence mode="wait" initial={false}>
@@ -229,7 +229,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
           </div>
 
           {/* Floating destination cards */}
-          <div className="relative mt-auto pt-7 sm:pt-10 lg:mt-0 lg:self-center lg:pt-16">
+          <div className="relative mt-auto pt-7 sm:pt-10 lg:mt-0 lg:self-center lg:pt-4">
             <ul
               className="no-scrollbar -mx-5 flex snap-x snap-mandatory scroll-px-5 items-end gap-3 overflow-x-auto sm:gap-4 px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:snap-none lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0"
               aria-label="Destinacije u ponudi"
@@ -268,7 +268,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
               })}
             </ul>
 
-            <div className="mt-6 hidden items-center gap-3 sm:flex lg:mt-8 lg:justify-start lg:pl-[calc(clamp(13rem,17vw,17.5rem)/2+2.2rem)]">
+            <div className="mt-6 hidden items-center gap-3 sm:flex lg:mt-6 lg:pr-10">
               <button
                 type="button"
                 onClick={prev}
@@ -285,15 +285,10 @@ export function Hero({ slides }: { slides: Slide[] }) {
               >
                 <ArrowRight className="size-4" />
               </button>
-              <span className="ml-3 hidden text-xs tracking-[0.22em] text-mist/70 sm:inline lg:hidden">
+              <span className="ml-3 hidden text-xs tracking-[0.22em] text-mist/70 sm:inline lg:hidden" data-counter>
                 {pad2(index + 1)} / {pad2(total)}
               </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Counter + progress (desktop) */}
-        <div className="absolute bottom-16 right-10 z-20 hidden items-center gap-4 text-[0.72rem] tracking-[0.2em] text-mist/75 lg:flex">
+        <div className="ml-auto hidden items-center gap-4 text-[0.72rem] tracking-[0.2em] text-mist/75 lg:flex">
           <button
             type="button"
             onClick={() => setPaused((p) => !p)}
@@ -314,6 +309,11 @@ export function Hero({ slides }: { slides: Slide[] }) {
           </span>
           <span>{pad2(total)}</span>
         </div>
+            </div>
+          </div>
+        </div>
+
+        {finder && <div className="relative z-20 hidden px-10 pb-8 lg:block lg:pl-[7.5rem] xl:pl-[9rem]">{finder}</div>}
 
         <span className="sr-only" aria-live="polite">
           {`Slajd ${index + 1} od ${total}: ${active.name}`}

@@ -25,7 +25,7 @@ export default function TripsPage() {
           Sve cijene su u KM, prema objavi agencije.
         </p>
       </PageHero>
-      <main id="sadrzaj" className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+      <main id="sadrzaj" className="mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8 sm:pt-10 lg:px-12 lg:pb-24">
         <Suspense fallback={<TripGridFallback trips={trips} />}>
           <TripBrowser trips={trips} />
         </Suspense>

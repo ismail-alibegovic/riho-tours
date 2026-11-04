@@ -40,8 +40,8 @@ export function TripCard({
 }) {
   const big = variant === "feature";
   return (
-    <article className={`group ${className}`}>
-      <Link href={`/putovanja/${trip.slug}`} className="block rounded-xl focus-visible:outline-offset-4">
+    <article className={`group h-full ${className}`}>
+      <Link href={`/putovanja/${trip.slug}`} className="flex h-full flex-col rounded-xl focus-visible:outline-offset-4">
         <div className={`relative overflow-hidden rounded-xl bg-petrol ${ratio[variant]}`}>
           <Image
             src={trip.image.src}
@@ -52,7 +52,7 @@ export function TripCard({
           />
           <TransportTag trip={trip} />
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex flex-1 flex-col">
           <p className="text-[0.8rem] text-fog">
             {trip.country} · {trip.duration}
           </p>
@@ -63,7 +63,7 @@ export function TripCard({
           >
             {trip.title}
           </h3>
-          <p className="mt-2 flex items-baseline justify-between gap-4 text-[0.85rem] text-fog">
+          <p className="mt-auto flex items-baseline justify-between gap-4 pt-2 text-[0.85rem] text-fog">
             <span className="truncate">{dateLine(trip)}</span>
             <span className="shrink-0 whitespace-nowrap">
               od <span className="text-[1.05rem] font-semibold text-mist">{formatKM(trip.priceFrom)}</span>

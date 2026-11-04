@@ -31,8 +31,8 @@ export function PageHero({
         />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(8,17,21,.8)_0%,rgba(8,17,21,.45)_45%,rgba(8,17,21,.15)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-ink/80 to-transparent" />
-        <SiteHeader />
-        <div className="flex flex-1 flex-col justify-end px-5 pb-8 pt-12 sm:pb-10 sm:pt-16 sm:px-8 lg:px-12 lg:pb-14 lg:pl-[7.5rem] xl:pl-[9rem]">
+        <SiteHeader contained />
+        <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end px-5 pb-8 pt-12 sm:px-8 sm:pb-10 sm:pt-16 lg:px-12 lg:pb-14">
           {children}
         </div>
       </div>

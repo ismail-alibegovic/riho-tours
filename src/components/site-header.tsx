@@ -8,7 +8,7 @@ import { nav, site } from "@/data/site";
 import { Close, Facebook, Instagram, Menu, Phone, Search } from "./icons";
 import { Logo } from "./logo";
 
-export function SiteHeader() {
+export function SiteHeader({ contained = false }: { contained?: boolean }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -43,7 +43,11 @@ export function SiteHeader() {
     href === "/" ? pathname === "/" : !href.includes("#") && pathname.startsWith(href);
 
   return (
-    <header className="relative z-40 flex items-center justify-between gap-6 px-5 pt-5 sm:px-8 sm:pt-7 lg:px-12 lg:pt-8">
+    <header
+      className={`relative z-40 flex items-center justify-between gap-6 px-5 pt-5 sm:px-8 sm:pt-7 lg:px-12 lg:pt-8 ${
+        contained ? "mx-auto w-full max-w-[1440px]" : ""
+      }`}
+    >
       <Logo />
 
       <nav aria-label="Glavna navigacija" className="hidden items-center lg:flex">

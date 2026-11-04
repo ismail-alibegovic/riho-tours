@@ -91,7 +91,7 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
         <form
           role="search"
           onSubmit={(e) => e.preventDefault()}
-          className="grid gap-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(4,minmax(0,1fr))]"
+          className="grid gap-3 lg:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))]"
         >
           <div className="flex gap-2 lg:contents">
           <label className="relative block flex-1">
@@ -116,12 +116,12 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
             }`}
           >
             Filteri
-            {(filters.prevoz || filters.mjesec || filters.maxCijena || filters.sort !== "datum") && (
+            {!!(filters.prevoz || filters.mjesec || filters.maxCijena) && (
               <span className="absolute -right-1 -top-1 size-2.5 rounded-full bg-sand-light" aria-label="aktivni filteri" />
             )}
           </button>
           </div>
-          <div id="filteri" className={`${showFilters ? "grid" : "hidden"} grid-cols-2 gap-2 sm:gap-3 lg:contents`}>
+          <div id="filteri" className={`${showFilters ? "grid" : "hidden"} grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:contents`}>
           <Select
             hideLabel
             label="Prevoz"
@@ -146,17 +146,6 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
             value={String(filters.maxCijena)}
             onChange={(v) => update({ maxCijena: Number(v) })}
             options={[{ value: "0", label: "Cijena: sve" }, ...PRICE_STEPS.map((p) => ({ value: String(p), label: `do ${p} KM` }))]}
-          />
-          <Select
-            hideLabel
-            label="Sortiranje"
-            value={filters.sort}
-            onChange={(v) => update({ sort: v as SortKey })}
-            options={[
-              { value: "datum", label: "Po datumu" },
-              { value: "cijena-rastuce", label: "Cijena: najniža" },
-              { value: "cijena-opadajuce", label: "Cijena: najviša" },
-            ]}
           />
           </div>
         </form>
@@ -188,25 +177,40 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 sm:mt-10">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-mist/10 pb-4 sm:mt-8">
         <p className="text-[0.95rem] text-fog" aria-live="polite">
           <span className="font-semibold text-mist">{results.length}</span>{" "}
           {aranzmanWord(results.length)}
           {filters.kategorija && <> · {categories[filters.kategorija].label}</>}
         </p>
-        {active && (
-          <button
-            type="button"
-            onClick={() => update({ ...defaultFilters, sort: filters.sort })}
-            className="inline-flex items-center gap-2 rounded-full border border-mist/20 px-4 py-2 text-[0.85rem] text-mist transition hover:border-mist/60"
-          >
-            <Close className="size-3.5" /> Poništi filtere
-          </button>
-        )}
+        <div className="flex items-center gap-3">
+          {active && (
+            <button
+              type="button"
+              onClick={() => update({ ...defaultFilters, sort: filters.sort })}
+              className="inline-flex h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium text-mist/80 transition hover:bg-mist/5 hover:text-mist"
+            >
+              <Close className="size-3.5" /> Poništi filtere
+            </button>
+          )}
+          <div className="w-44">
+              <Select
+                hideLabel
+                label="Sortiranje"
+                value={filters.sort}
+                onChange={(v) => update({ sort: v as SortKey })}
+                options={[
+                  { value: "datum", label: "Po datumu" },
+                  { value: "cijena-rastuce", label: "Cijena: najniža" },
+                  { value: "cijena-opadajuce", label: "Cijena: najviša" },
+                ]}
+              />
+          </div>
+        </div>
       </div>
 
       {results.length === 0 ? (
-        <div className="mt-10 rounded-[18px] border border-dashed border-mist/20 px-6 py-16 text-center">
+        <div className="mt-10 rounded-2xl border border-dashed border-mist/20 px-6 py-16 text-center">
           <p className="text-xl font-semibold text-mist">Nema aranžmana za odabrane filtere.</p>
           <p className="mx-auto mt-3 max-w-md text-fog">
             Promijenite kriterije ili nam pošaljite upit – rado ćemo pripremiti individualnu ponudu.
