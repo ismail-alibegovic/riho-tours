@@ -8,7 +8,7 @@ import type { CategoryId, Transport, Trip } from "@/data/types";
 import { aranzmanWord, monthLabel, tripMonths } from "@/lib/format";
 import { defaultFilters, filterTrips, type Filters, type SortKey } from "@/lib/search";
 import { Close, Search } from "../icons";
-import { TripCard } from "../trip-card";
+import { TripCard, TripRow } from "../trip-card";
 
 const PRICE_STEPS = [100, 250, 500, 900];
 
@@ -46,6 +46,7 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
   const [, startTransition] = useTransition();
   const [filters, setFilters] = useState<Filters>(() => readFilters(new URLSearchParams(sp.toString())));
   const inputRef = useRef<HTMLInputElement>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   // keep state in sync with back/forward navigation
   const spString = sp.toString();
@@ -83,17 +84,18 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
     }`;
 
   const selectCls =
-    "w-full appearance-none rounded-[10px] border border-mist/15 bg-ink-2 px-4 py-3 pr-9 text-[0.92rem] text-mist outline-none transition focus:border-mist/60 bg-[url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239FB0BA' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>\")] bg-[length:12px] bg-[right_14px_center] bg-no-repeat";
+    "w-full appearance-none rounded-[10px] border border-mist/15 bg-ink-2 px-3.5 py-3 pr-9 text-base text-mist sm:px-4 sm:text-[0.92rem] outline-none transition focus:border-mist/60 bg-[url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239FB0BA' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>\")] bg-[length:12px] bg-[right_14px_center] bg-no-repeat";
 
   return (
     <div id="pretraga" className="scroll-mt-6">
-      <div className="rounded-[18px] border border-mist/10 bg-ink-2/60 p-4 sm:p-6">
+      <div className="rounded-[18px] border border-mist/10 bg-ink-2/60 p-3 sm:p-6">
         <form
           role="search"
           onSubmit={(e) => e.preventDefault()}
           className="grid gap-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(4,minmax(0,1fr))]"
         >
-          <label className="relative block">
+          <div className="flex gap-2 lg:contents">
+          <label className="relative block flex-1">
             <span className="sr-only">Pretraži putovanja</span>
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-fog" />
             <input
@@ -101,10 +103,26 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
               type="search"
               value={filters.q}
               onChange={(e) => update({ q: e.target.value })}
-              placeholder="Destinacija, grad ili praznik…"
-              className="w-full rounded-[10px] border border-mist/15 bg-ink-2 py-3 pl-11 pr-4 text-[0.95rem] text-mist placeholder:text-fog/70 outline-none transition focus:border-mist/60"
+              placeholder="Gdje želite putovati?"
+              className="w-full rounded-[10px] border border-mist/15 bg-ink-2 py-3 pl-11 pr-4 text-base text-mist placeholder:text-fog/70 outline-none transition focus:border-mist/60 sm:text-[0.95rem]"
             />
           </label>
+          <button
+            type="button"
+            onClick={() => setShowFilters((v) => !v)}
+            aria-expanded={showFilters}
+            aria-controls="filteri"
+            className={`relative shrink-0 rounded-[10px] border px-4 text-[0.88rem] transition lg:hidden ${
+              showFilters ? "border-mist bg-mist text-ink" : "border-mist/15 bg-ink-2 text-mist"
+            }`}
+          >
+            Filteri
+            {(filters.prevoz || filters.mjesec || filters.maxCijena || filters.sort !== "datum") && (
+              <span className="absolute -right-1 -top-1 size-2.5 rounded-full bg-sand-light" aria-label="aktivni filteri" />
+            )}
+          </button>
+          </div>
+          <div id="filteri" className={`${showFilters ? "grid" : "hidden"} grid-cols-2 gap-2 sm:gap-3 lg:contents`}>
           <label>
             <span className="sr-only">Prevoz</span>
             <select
@@ -154,15 +172,16 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
               onChange={(e) => update({ sort: e.target.value as SortKey })}
               className={selectCls}
             >
-              <option value="datum">Najskoriji polazak</option>
+              <option value="datum">Po datumu</option>
               <option value="cijena-rastuce">Cijena: od najniže</option>
               <option value="cijena-opadajuce">Cijena: od najviše</option>
             </select>
           </label>
+          </div>
         </form>
 
         <div
-          className="no-scrollbar -mx-4 mt-4 flex gap-2 overflow-x-auto px-4 sm:-mx-6 sm:px-6 lg:flex-wrap"
+          className="no-scrollbar -mx-3 mt-3 flex gap-2 overflow-x-auto px-3 sm:-mx-6 sm:mt-4 sm:px-6 lg:flex-wrap"
           role="group"
           aria-label="Kategorije"
         >
@@ -188,7 +207,7 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
         </div>
       </div>
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 sm:mt-10">
         <p className="text-[0.95rem] text-fog" aria-live="polite">
           <span className="font-serif text-[1.6rem] italic text-mist">{results.length}</span>{" "}
           {aranzmanWord(results.length)}
@@ -220,7 +239,7 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
           </button>
         </div>
       ) : (
-        <ul className="mt-8 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-14 lg:grid-cols-3">
           <AnimatePresence initial={false} mode="popLayout">
             {results.map((t) => (
               <motion.li
@@ -231,9 +250,11 @@ export function TripBrowser({ trips }: { trips: Trip[] }) {
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
+                <TripRow trip={t} className="sm:hidden" />
                 <TripCard
                   trip={t}
                   variant="landscape"
+                  className="hidden sm:block"
                   sizes="(min-width:1024px) 30vw, (min-width:640px) 48vw, 100vw"
                 />
               </motion.li>
@@ -251,10 +272,11 @@ export function TripGridFallback({ trips }: { trips: Trip[] }) {
   return (
     <div>
       <div className="h-[8.5rem] rounded-[18px] border border-mist/10 bg-ink-2/60" />
-      <ul className="mt-[6.5rem] grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-[6.5rem] grid gap-3 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-14 lg:grid-cols-3">
         {sorted.map((t) => (
           <li key={t.slug}>
-            <TripCard trip={t} variant="landscape" sizes="(min-width:1024px) 30vw, (min-width:640px) 48vw, 100vw" />
+            <TripRow trip={t} className="sm:hidden" />
+            <TripCard trip={t} variant="landscape" className="hidden sm:block" sizes="(min-width:1024px) 30vw, (min-width:640px) 48vw, 100vw" />
           </li>
         ))}
       </ul>

@@ -2,23 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 /**
- * Original Riho Tours logo, unmodified. Because the blue/green artwork was
- * drawn for light backgrounds, it sits on a soft light plate when placed over
- * photography.
+ * Riho Tours logo – light variant for dark/photographic backgrounds.
+ * Same artwork as the original (public/brand/riho-tours-logo.png) with the
+ * wordmark set in light tone and the cloud details filled, on transparency.
  */
-export function Logo({ className = "" }: { className?: string }) {
+export function Logo({ className = "", onPhoto = true }: { className?: string; onPhoto?: boolean }) {
   return (
     <Link
       href="/"
       aria-label="Riho Tours – početna"
-      className={`inline-flex shrink-0 items-center rounded-[10px] bg-[#f7faf9]/95 px-2.5 py-1.5 shadow-[0_6px_24px_-12px_rgba(0,0,0,.6)] ring-1 ring-white/40 transition-colors hover:bg-white ${className}`}
+      className={`inline-flex shrink-0 items-center transition-opacity hover:opacity-85 ${className}`}
     >
       <Image
-        src="/brand/riho-tours-logo.png"
+        src="/brand/riho-tours-logo-light.png"
         alt="Riho Tours – Travel and events agency"
-        width={296}
-        height={75}
-        className="h-7 w-auto sm:h-8"
+        width={592}
+        height={150}
+        className={`h-9 w-auto sm:h-10 lg:h-11 ${onPhoto ? "drop-shadow-[0_1px_3px_rgba(8,17,21,.5)]" : ""}`}
         preload
       />
     </Link>

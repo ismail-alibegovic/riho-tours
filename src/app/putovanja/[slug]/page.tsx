@@ -7,7 +7,7 @@ import { InquiryForm } from "@/components/inquiry-form";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/section-heading";
-import { TripCard } from "@/components/trip-card";
+import { TripCard, TripRow } from "@/components/trip-card";
 import { categories, site } from "@/data/site";
 import { getTrip, trips } from "@/data/trips";
 import { formatKM, transportLabel } from "@/lib/format";
@@ -91,7 +91,7 @@ export default async function TripPage({ params }: PageProps<"/putovanja/[slug]"
         </dl>
       </PageHero>
 
-      <main id="sadrzaj" className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+      <main id="sadrzaj" className="mx-auto max-w-[1440px] px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-24">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
@@ -116,13 +116,13 @@ export default async function TripPage({ params }: PageProps<"/putovanja/[slug]"
             </Reveal>
 
             {gallery.length > 0 && (
-              <Reveal className="mt-14 grid gap-4 sm:grid-cols-5">
+              <Reveal className="mt-12 grid grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-5 sm:gap-4">
                 {gallery.map((g, i) => (
-                  <figure key={g.src} className={i === 0 ? "sm:col-span-3" : "sm:col-span-2"}>
-                    <div className={`relative overflow-hidden rounded-[14px] ${i === 0 ? "aspect-[4/3]" : "aspect-[4/3] sm:aspect-[3/4]"}`}>
+                  <figure key={g.src} className={`${gallery.length === 1 ? "col-span-2" : ""} ${i === 0 ? "sm:col-span-3" : "sm:col-span-2"}`}>
+                    <div className={`relative aspect-[4/5] overflow-hidden rounded-[14px] ${i === 0 ? "sm:aspect-[4/3]" : "sm:aspect-[3/4]"}`}>
                       <Image src={g.src} alt={g.alt} fill sizes="(min-width:1024px) 34vw, 100vw" className="object-cover" />
                     </div>
-                    <figcaption className="mt-2 text-[0.72rem] text-fog">
+                    <figcaption className="mt-2 truncate text-[0.68rem] text-fog sm:text-[0.72rem]">
                       Foto:{" "}
                       {g.creditUrl ? (
                         <a href={g.creditUrl} target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">
@@ -281,7 +281,7 @@ export default async function TripPage({ params }: PageProps<"/putovanja/[slug]"
         </div>
 
         {related.length > 0 && (
-          <section className="mt-28 border-t border-mist/10 pt-16" aria-labelledby="slicna">
+          <section className="mt-20 border-t border-mist/10 pt-12 sm:mt-28 sm:pt-16" aria-labelledby="slicna">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h2 id="slicna" className="font-sans text-[clamp(1.8rem,3.4vw,2.8rem)] font-normal uppercase leading-none text-mist">
                 Možda vas{" "}
@@ -291,10 +291,11 @@ export default async function TripPage({ params }: PageProps<"/putovanja/[slug]"
                 Sva putovanja →
               </Link>
             </div>
-            <ul className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3">
               {related.map((t) => (
                 <li key={t.slug}>
-                  <TripCard trip={t} variant="landscape" sizes="(min-width:1024px) 30vw, 100vw" />
+                  <TripRow trip={t} className="sm:hidden" />
+                  <TripCard trip={t} variant="landscape" className="hidden sm:block" sizes="(min-width:1024px) 30vw, 100vw" />
                 </li>
               ))}
             </ul>

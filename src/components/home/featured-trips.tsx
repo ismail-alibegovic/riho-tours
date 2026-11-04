@@ -20,14 +20,14 @@ export function FeaturedTrips() {
   const side = pick("advent-u-tvrdi-osijek");
 
   return (
-    <section id="aktuelno" className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
+    <section id="aktuelno" className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-36">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
         <Reveal className="lg:col-span-7">
           <Eyebrow index="01">Aktuelna putovanja</Eyebrow>
           <DisplayTitle before="Sezona" em="koja" after="dolazi" className="mt-6" />
         </Reveal>
         <Reveal delay={0.1} className="lg:col-span-5 lg:pb-2">
-          <p className="max-w-md text-[1.02rem] font-light leading-relaxed text-fog">
+          <p className="max-w-md text-[0.98rem] font-light leading-relaxed text-fog sm:text-[1.02rem]">
             Adventi Srednje Evrope, novogodišnja Boka, Valentinovo u Beču i Budimpešti,
             Istanbul u vrijeme lala – {trips.length} objavljenih aranžmana sa provjerenim
             cijenama i terminima.
@@ -42,7 +42,19 @@ export function FeaturedTrips() {
         </Reveal>
       </div>
 
-      <div className="mt-16 grid gap-x-6 gap-y-14 lg:mt-20 lg:grid-cols-12">
+      {/* Mobile & tablet: swipeable row */}
+      <ul
+        className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:hidden"
+        aria-label="Aktuelna putovanja"
+      >
+        {[feature, tall, ...row, side, wide].map((t) => (
+          <li key={t.slug} className="w-[78vw] max-w-[22rem] shrink-0 snap-start">
+            <TripCard trip={t} variant="portrait" sizes="(min-width:640px) 22rem, 78vw" />
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-20 hidden gap-x-6 gap-y-14 lg:grid lg:grid-cols-12">
         <Reveal className="lg:col-span-8">
           <TripCard trip={feature} variant="feature" sizes="(min-width:1024px) 62vw, 100vw" />
         </Reveal>

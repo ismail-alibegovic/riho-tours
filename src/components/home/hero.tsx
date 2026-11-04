@@ -138,9 +138,9 @@ export function Hero({ slides }: { slides: Slide[] }) {
         </div>
 
         {/* Content */}
-        <div className="relative flex flex-1 flex-col px-5 pb-6 pt-10 sm:px-8 lg:grid lg:grid-cols-[minmax(0,46%)_minmax(0,1fr)] lg:items-center lg:gap-6 lg:px-0 lg:pb-20 lg:pl-[7.5rem] lg:pt-0 xl:pl-[9rem]">
+        <div className="relative flex flex-1 flex-col px-5 pb-5 pt-6 sm:px-8 sm:pb-8 sm:pt-10 lg:grid lg:grid-cols-[minmax(0,46%)_minmax(0,1fr)] lg:items-center lg:gap-6 lg:px-0 lg:pb-20 lg:pl-[7.5rem] lg:pt-0 xl:pl-[9rem]">
           <div className="max-w-xl lg:max-w-none lg:-translate-y-4">
-            <div className="mb-6 h-5 overflow-hidden" aria-live="polite">
+            <div className="mb-4 h-5 overflow-hidden sm:mb-6" aria-live="polite">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.p
                   key={active.slug}
@@ -148,7 +148,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
                   transition={{ duration: 0.55, ease: EASE }}
-                  className="flex items-center gap-3 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-sand-light"
+                  className="flex items-center gap-3 whitespace-nowrap text-[0.66rem] font-medium uppercase tracking-[0.24em] text-sand-light sm:text-[0.72rem] sm:tracking-[0.28em]"
                 >
                   <span className="inline-block h-px w-8 bg-sand-light/70" />
                   {active.country} · {active.dates[0]}
@@ -160,7 +160,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
               initial={reduce ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
-              className="font-sans text-[clamp(3.1rem,13.5vw,4.6rem)] font-normal uppercase leading-[0.92] tracking-[0.015em] text-mist sm:text-[clamp(4rem,10vw,6rem)] lg:text-[clamp(4rem,5.6vw,6.6rem)]"
+              className="font-sans text-[clamp(2.7rem,12.4vw,4.6rem)] font-normal uppercase leading-[0.92] tracking-[0.015em] text-mist sm:text-[clamp(4rem,10vw,6rem)] lg:text-[clamp(4rem,5.6vw,6.6rem)]"
             >
               <span className="block">Otkrijte</span>
               <span className="mt-1 block whitespace-nowrap">
@@ -175,41 +175,64 @@ export function Hero({ slides }: { slides: Slide[] }) {
               initial={reduce ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: EASE, delay: 0.35 }}
-              className="mt-7 max-w-[30rem] text-[1.02rem] font-light leading-relaxed text-mist/85 sm:text-[1.08rem]"
+              className="mt-4 max-w-[30rem] text-[0.98rem] font-light leading-relaxed text-mist/85 sm:mt-7 sm:text-[1.08rem]"
             >
-              Riho Tours iz Breze organizuje grupna i individualna putovanja – adventske
-              izlete, Istanbul, evropske metropole i praznična putovanja, krojena po vašoj
-              mjeri.
+              <span className="sm:hidden">
+                Grupna i individualna putovanja iz Breze – krojena po vašoj mjeri.
+              </span>
+              <span className="hidden sm:inline">
+                Riho Tours iz Breze organizuje grupna i individualna putovanja – adventske
+                izlete, Istanbul, evropske metropole i praznična putovanja, krojena po vašoj
+                mjeri.
+              </span>
             </motion.p>
 
             <motion.div
               initial={reduce ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: EASE, delay: 0.5 }}
-              className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4"
+              className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-9"
             >
               <Link
                 href="/putovanja"
-                className="group inline-flex items-center gap-3 rounded-[10px] bg-petrol px-6 py-3.5 text-[0.98rem] font-medium text-mist shadow-[0_10px_30px_-12px_rgba(0,0,0,.7)] ring-1 ring-mist/10 transition hover:bg-[#2f5156]"
+                className="group inline-flex items-center gap-3 rounded-[10px] bg-petrol px-5 py-3 text-[0.95rem] font-medium text-mist sm:px-6 sm:py-3.5 sm:text-[0.98rem] shadow-[0_10px_30px_-12px_rgba(0,0,0,.7)] ring-1 ring-mist/10 transition hover:bg-[#2f5156]"
               >
                 Istraži putovanja
                 <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 href={`/putovanja/${active.slug}`}
-                className="group inline-flex items-center gap-2 text-sm text-mist/80 underline-offset-[6px] transition hover:text-mist hover:underline"
+                className="group hidden items-center gap-2 text-sm text-mist/80 underline-offset-[6px] transition hover:text-mist hover:underline sm:inline-flex"
               >
                 <span className="sr-only">Aranžman: </span>
                 {active.name}, od {formatKM(active.priceFrom)}
                 <ArrowUpRight className="size-4" />
               </Link>
+              <div className="ml-auto flex items-center gap-2 sm:hidden">
+                <button
+                  type="button"
+                  onClick={prev}
+                  aria-label="Prethodna destinacija"
+                  className="grid size-10 place-items-center rounded-full border border-mist/35 bg-white/5 text-mist backdrop-blur-md"
+                >
+                  <ArrowLeft className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={next}
+                  aria-label="Sljedeća destinacija"
+                  className="grid size-10 place-items-center rounded-full border border-mist/35 bg-white/5 text-mist backdrop-blur-md"
+                >
+                  <ArrowRight className="size-4" />
+                </button>
+              </div>
             </motion.div>
           </div>
 
           {/* Floating destination cards */}
-          <div className="relative mt-10 lg:mt-0 lg:self-center lg:pt-16">
+          <div className="relative mt-auto pt-7 sm:pt-10 lg:mt-0 lg:self-center lg:pt-16">
             <ul
-              className="no-scrollbar -mx-5 flex snap-x snap-mandatory items-end gap-4 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:snap-none lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0"
+              className="no-scrollbar -mx-5 flex snap-x snap-mandatory scroll-px-5 items-end gap-3 overflow-x-auto sm:gap-4 px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:snap-none lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0"
               aria-label="Destinacije u ponudi"
             >
               {order.map((s, k) => {
@@ -223,15 +246,15 @@ export function Hero({ slides }: { slides: Slide[] }) {
                     transition={{ layout: { duration: 0.9, ease: EASE } }}
                     className={`relative shrink-0 snap-start ${
                       isActive
-                        ? "w-[15.5rem] sm:w-[16rem] lg:w-[clamp(13rem,17vw,17.5rem)]"
-                        : "w-[13rem] lg:w-[clamp(11.5rem,15vw,15.5rem)]"
+                        ? "w-[11.75rem] sm:w-[16rem] lg:w-[clamp(13rem,17vw,17.5rem)]"
+                        : "w-[10.25rem] sm:w-[13rem] lg:w-[clamp(11.5rem,15vw,15.5rem)]"
                     }`}
                   >
-                    <div className="mb-3 flex items-center justify-between pr-1">
-                      <span className="font-sans text-[1.05rem] font-medium text-mist">
+                    <div className="mb-2 flex items-center justify-between gap-2 pr-1 sm:mb-3">
+                      <span className="truncate font-sans text-[0.92rem] font-medium text-mist sm:text-[1.05rem]">
                         {s.name}
                       </span>
-                      <span className="flex gap-1" aria-hidden>
+                      <span className="flex shrink-0 gap-1" aria-hidden>
                         {slides.map((_, d) => (
                           <span
                             key={d}
@@ -246,7 +269,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
               })}
             </ul>
 
-            <div className="mt-6 flex items-center gap-3 lg:mt-8 lg:justify-start lg:pl-[calc(clamp(13rem,17vw,17.5rem)/2+2.2rem)]">
+            <div className="mt-6 hidden items-center gap-3 sm:flex lg:mt-8 lg:justify-start lg:pl-[calc(clamp(13rem,17vw,17.5rem)/2+2.2rem)]">
               <button
                 type="button"
                 onClick={prev}
@@ -263,7 +286,7 @@ export function Hero({ slides }: { slides: Slide[] }) {
               >
                 <ArrowRight className="size-4" />
               </button>
-              <span className="ml-3 text-xs tracking-[0.22em] text-mist/70 lg:hidden">
+              <span className="ml-3 hidden text-xs tracking-[0.22em] text-mist/70 sm:inline lg:hidden">
                 {pad2(index + 1)} / {pad2(total)}
               </span>
             </div>
@@ -329,24 +352,26 @@ function CardBody({
           <ArrowUpRight className="size-4" />
         </span>
       )}
-      <span className="absolute inset-x-0 bottom-0 block p-4">
+      <span className="absolute inset-x-0 bottom-0 block p-3.5 sm:p-4">
         <span className="block text-[0.66rem] font-medium uppercase tracking-[0.2em] text-mist/80">
           {slide.country}
         </span>
         <span
           className={`mt-1 block font-sans font-semibold uppercase leading-[1.02] tracking-[0.02em] text-mist ${
-            active ? "text-[1.45rem]" : "text-[1.2rem]"
+            active ? "text-[1.15rem] sm:text-[1.45rem]" : "text-[1rem] sm:text-[1.2rem]"
           }`}
         >
           {slide.name}
         </span>
-        <span className="mt-1.5 block truncate text-[0.82rem] text-mist/80">{slide.tagline}</span>
+        <span className="mt-1 block truncate text-[0.76rem] text-mist/80 sm:mt-1.5 sm:text-[0.82rem]">{slide.tagline}</span>
       </span>
     </>
   );
 
   const cls = `group relative block overflow-hidden rounded-[14px] bg-petrol shadow-[0_24px_50px_-24px_rgba(0,0,0,.85)] ring-1 ring-white/10 transition-[height] duration-700 ${
-    active ? "h-[21rem] lg:h-[clamp(19rem,26vw,24rem)]" : "h-[18rem] lg:h-[clamp(16.5rem,22.5vw,21rem)]"
+    active
+      ? "h-[15.5rem] sm:h-[21rem] lg:h-[clamp(19rem,26vw,24rem)]"
+      : "h-[13.5rem] sm:h-[18rem] lg:h-[clamp(16.5rem,22.5vw,21rem)]"
   }`;
 
   if (active) {

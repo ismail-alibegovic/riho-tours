@@ -67,7 +67,7 @@ export function InquiryForm({ tripTitle, dates, departures, compact }: Props) {
   };
 
   const field =
-    "w-full rounded-[10px] border border-mist/15 bg-ink px-4 py-3 text-[0.95rem] text-mist placeholder:text-fog/60 outline-none transition focus:border-mist/60 aria-[invalid=true]:border-[#d98c7a]";
+    "w-full rounded-[10px] border border-mist/15 bg-ink px-4 py-3 text-base text-mist sm:text-[0.95rem] placeholder:text-fog/60 outline-none transition focus:border-mist/60 aria-[invalid=true]:border-[#d98c7a]";
   const label = "mb-1.5 block text-[0.72rem] font-medium uppercase tracking-[0.18em] text-fog";
 
   if (ready) {

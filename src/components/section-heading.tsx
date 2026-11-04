@@ -29,7 +29,7 @@ export function DisplayTitle({
 }) {
   return (
     <Tag
-      className={`font-sans text-[clamp(2.3rem,5.4vw,4.4rem)] font-normal uppercase leading-[0.98] tracking-[0.01em] text-mist ${className}`}
+      className={`font-sans text-[clamp(2.1rem,5.4vw,4.4rem)] font-normal uppercase leading-[0.98] tracking-[0.01em] text-mist ${className}`}
     >
       {before && <>{before} </>}
       <span className="font-serif text-[1.1em] normal-case italic tracking-normal">{em}</span>

@@ -6,11 +6,11 @@ import { Logo } from "./logo";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink pt-20 text-fog">
+    <footer className="bg-ink pt-14 text-fog sm:pt-20">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
-        <div className="grid gap-12 border-b border-mist/10 pb-14 lg:grid-cols-12">
+        <div className="grid gap-10 border-b border-mist/10 pb-10 sm:gap-12 sm:pb-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Logo />
+            <Logo onPhoto={false} />
             <p className="mt-6 max-w-sm font-serif text-[1.45rem] italic leading-snug text-mist">
               Krojimo putovanja po Vašoj mjeri.
             </p>
@@ -36,8 +36,8 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-8">
-            <div>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-8">
+            <div className="col-span-2 sm:col-span-1">
               <h2 className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-sand-light">
                 Kontakt
               </h2>
@@ -65,7 +65,7 @@ export function SiteFooter() {
               <h2 className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-sand-light">
                 Putovanja
               </h2>
-              <ul className="mt-4 space-y-2 text-[0.95rem]">
+              <ul className="mt-4 space-y-2 text-[0.9rem] sm:text-[0.95rem]">
                 {(Object.keys(categories) as CategoryId[]).map((id) => (
                   <li key={id}>
                     <Link href={`/putovanja?kategorija=${id}`} className="text-mist hover:underline">
@@ -79,7 +79,7 @@ export function SiteFooter() {
               <h2 className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-sand-light">
                 Agencija
               </h2>
-              <ul className="mt-4 space-y-2 text-[0.95rem]">
+              <ul className="mt-4 space-y-2 text-[0.9rem] sm:text-[0.95rem]">
                 {nav.map((n) => (
                   <li key={n.href}>
                     <Link href={n.href} className="text-mist hover:underline">

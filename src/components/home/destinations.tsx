@@ -21,7 +21,7 @@ const count = (id: CategoryId) => trips.filter((t) => t.categories.includes(id))
 
 export function Destinations() {
   return (
-    <section id="destinacije" className="scroll-mt-6 bg-ink-2 py-24 lg:py-36">
+    <section id="destinacije" className="scroll-mt-6 bg-ink-2 py-16 sm:py-24 lg:py-36">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <Reveal className="lg:col-span-7">
@@ -29,14 +29,40 @@ export function Destinations() {
             <DisplayTitle before="Od Bosfora" em="do" after="Dunava" className="mt-6" />
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-4 lg:col-start-9">
-            <p className="text-[1.02rem] font-light leading-relaxed text-fog">
+            <p className="text-[0.98rem] font-light leading-relaxed text-fog sm:text-[1.02rem]">
               Ponuda organizovana onako kako putujete – po temama, regijama i dužini
               putovanja. Odaberite smjer i pogledajte aktuelne termine.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:mt-20 lg:grid-cols-12 lg:gap-6">
+        {/* Mobile: swipeable tiles */}
+        <ul
+          className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-2 sm:hidden"
+          aria-label="Destinacije"
+        >
+          {tiles.map((t) => (
+            <li key={t.id} className="w-[64vw] shrink-0 snap-start">
+              <Link
+                href={`/putovanja?kategorija=${t.id}`}
+                className="relative block aspect-[3/4] overflow-hidden rounded-[14px] bg-petrol"
+              >
+                <Image src={t.image.src} alt={t.image.alt} fill sizes="64vw" className="object-cover" />
+                <span className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent" />
+                <span className="absolute inset-x-0 bottom-0 p-4">
+                  <span className="block font-serif text-[1.7rem] italic leading-none text-mist">
+                    {categories[t.id].label}
+                  </span>
+                  <span className="mt-1.5 block text-[0.8rem] text-mist/75">
+                    {count(t.id)} {aranzmanWord(count(t.id))}
+                  </span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-16 hidden gap-5 sm:grid sm:grid-cols-2 lg:mt-20 lg:grid-cols-12 lg:gap-6">
           {tiles.map((t, i) => (
             <Reveal key={t.id} delay={0.06 * i} className={`${t.className} min-w-0`}>
               <Link
@@ -72,7 +98,8 @@ export function Destinations() {
             </Reveal>
           ))}
 
-          <Reveal delay={0.2} className="sm:col-span-2 lg:col-span-12">
+        </div>
+          <Reveal delay={0.2} className="mt-6">
             <div className="flex h-full flex-col gap-6 rounded-[16px] border border-mist/12 p-6 lg:flex-row lg:items-center lg:gap-12 lg:p-8">
               <div className="lg:w-[28%] lg:shrink-0">
                 <p className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-sand-light">
@@ -103,7 +130,6 @@ export function Destinations() {
               </ul>
             </div>
           </Reveal>
-        </div>
       </div>
     </section>
   );
